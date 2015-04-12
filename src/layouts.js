@@ -14,7 +14,9 @@ class DefaultLayout {
         };
         masterNode.position={
             x:centrePosition.x,
-            y:centrePosition.y
+            y:centrePosition.y,
+            width:transforms.scale,
+            height:transforms.scale
         };
         let diameter=256+(childNodes.length*(transforms.scale/2));
         let radius=diameter/2;
@@ -25,7 +27,9 @@ class DefaultLayout {
             let angle = i * nodeAngleGap;
             node.position = {
                 x:centrePosition.x+(radius * Math.cos(angle)),
-                y:centrePosition.y+(radius * Math.sin(angle))
+                y:centrePosition.y+(radius * Math.sin(angle)),
+                width:transforms.scale,
+                height:transforms.scale
             };
             i+=1;
         }

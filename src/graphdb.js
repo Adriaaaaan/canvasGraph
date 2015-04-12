@@ -24,7 +24,7 @@ function makeLink(fromNode,toNode,type) {
 }
 
 let nodes = [
-    makeNode("main node","1",1),
+    makeNode("main","1",1),
     makeNode("node2","2",2),
     makeNode("node3","2",3),
     makeNode("node4","2",4),
@@ -43,9 +43,11 @@ let links = [
     makeLink(6,1,"related"),
     makeLink(7,1,"related"),
     makeLink(8,1,"related"),
-    //makeLink(6,2,"related"),
-    //makeLink(7,2,"related"),
-    //makeLink(8,3,"related"),
+    makeLink(6,2,"related"),
+    makeLink(7,2,"related"),
+    makeLink(8,3,"related"),
+    makeLink(4,7,"related"),
+    makeLink(5,7,"related"),
     makeLink(9,1,"related")
 ];
 

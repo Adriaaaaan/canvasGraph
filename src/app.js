@@ -4,7 +4,11 @@ import defaultLayout from './layouts';
 
 var options = {
     nodeColours:{
-        "1":"blue"
+        "1":"blue",
+        "2":"green"
+    },
+    nodeSize:{
+        "1":40
     }
 };
 let transforms = {scale:48,padding:48};
@@ -12,9 +16,14 @@ let transforms = {scale:48,padding:48};
 function drawNode(ctx,node,options){
     ctx.save();
     ctx.fillStyle = options.nodeColours[node.type] || "black";
+    var nodeSize = options.nodeSize[node.type] || 30;
     ctx.beginPath();
-    ctx.arc(node.position.x,node.position.y,20,0,2*Math.PI);
+    ctx.arc(node.position.x,node.position.y,nodeSize,0,2*Math.PI);
     ctx.fill();
+    ctx.fillStyle="white";
+    ctx.textAlign="center";
+    ctx.font = "18px Georgia";
+    ctx.fillText(node.name,node.position.x,node.position.y+4);
     ctx.restore();
 }
 
