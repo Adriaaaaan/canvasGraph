@@ -13,12 +13,14 @@ var options = {
 };
 let transforms = {scale:48,padding:48};
 
+
+
 function drawNode(ctx,node,options){
     ctx.save();
-    ctx.fillStyle = options.nodeColours[node.type] || "black";
-    var nodeSize = options.nodeSize[node.type] || 30;
+    ctx.fillStyle = node.colour || options.nodeColours[node.type] || "black";
+    node.position.radius = options.nodeSize[node.type] || 30;
     ctx.beginPath();
-    ctx.arc(node.position.x,node.position.y,nodeSize,0,2*Math.PI);
+    ctx.arc(node.position.x,node.position.y,node.position.radius,0,2*Math.PI);
     ctx.fill();
     ctx.fillStyle="white";
     ctx.textAlign="center";
@@ -40,7 +42,7 @@ function drawLink(ctx,link,nodes,options){
 
 function drawGraphToCanvas(ctx,data,transforms,options){
     var nodes = data.nodes;
-
+    console.log("draw");
     for(let link of data.links) {
         drawLink(ctx,link,nodes,options);
     }
@@ -50,6 +52,15 @@ function drawGraphToCanvas(ctx,data,transforms,options){
     }
 }
 
+function hitTest(node,mx,my) {
+
+    let dx = mx - node.position.x;
+    let dy = my - node.position.y;
+
+    //a "hit" will be registered if the distance away from the center is less than the radius of the circular object
+    return (dx*dx + dy*dy < node.position.radius*node.position.radius);
+}
+
 
 /**
  * run app and draw graph
@@ -57,6 +68,22 @@ function drawGraphToCanvas(ctx,data,transforms,options){
 let ctx = canvasView.render();
 defaultLayout.setNodePositions(mockData.nodes,transforms,canvasView);
 drawGraphToCanvas(ctx,mockData,options);
+
+canvasView.mousemove= function(evt){
+    var mouse = canvasView.getPointerLocation();
+    for(let node of mockData.nodes) {
+        let previousNodeStyle = node.colour;
+        if(hitTest(node,mouse.x,mouse.y)){
+            console.log(`in node ${node.name}}`);
+            node.colour="red";
+        } else {
+            node.colour=null;
+        }
+        if(previousNodeStyle!==node.colour) {
+            drawGraphToCanvas(ctx,mockData,options);
+        }
+    }
+}
 
 export default {options:options};
 
